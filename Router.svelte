@@ -459,7 +459,7 @@ loc.subscribe(async (newLoc) => {
         const detail = {
             route: routesList[i].path,
             location: newLoc.location,
-            lastLocation: lastLoc.location,
+            lastLocation: lastLoc ? lastLoc.location : null,
             querystring: newLoc.querystring,
             userData: routesList[i].userData
         }
