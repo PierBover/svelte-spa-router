@@ -447,8 +447,6 @@ let componentObj = null
 // Listen to changes in the $loc store and update the page
 // Do not use the $: syntax because it gets triggered by too many things
 loc.subscribe(async (newLoc) => {
-    lastLoc = newLoc
-
     // Find a route matching the location
     let i = 0
     while (i < routesList.length) {
@@ -461,9 +459,13 @@ loc.subscribe(async (newLoc) => {
         const detail = {
             route: routesList[i].path,
             location: newLoc.location,
+            lastLocation: lastLoc.location,
             querystring: newLoc.querystring,
             userData: routesList[i].userData
         }
+
+        // Once there's a match, we can safely rewrite the last location with the new one
+        lastLoc = newLoc
 
         // Check if the route can be loaded - if all conditions succeed
         if (!(await routesList[i].checkConditions(detail))) {
